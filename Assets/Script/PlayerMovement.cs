@@ -9,12 +9,15 @@ public class PlayerMovement : MonoBehaviour
     float dashTimer;
     public Rigidbody rb;
     float axiX;
+    Quaternion faceRight,faceLeft;
     int wallSide;
     public bool touchinWall, isGrounded,walljumping,dashing;
     #endregion
 
     void Start()
     {
+        faceLeft = Quaternion.Euler(0, 90, 0);
+        faceRight = Quaternion.Euler(0, 270, 0);
         rb = this.GetComponent<Rigidbody>();
         
     }
@@ -24,7 +27,7 @@ public class PlayerMovement : MonoBehaviour
         if (isGrounded && Input.GetKeyDown(KeyCode.Space))
         {
             rb.AddForce(transform.up * jump);
-            //rb.velocity=(transform.up * jump);
+            this.GetComponent<Animator>().SetBool("jumping", true);
             isGrounded = false;
         }
         if (touchinWall && Input.GetKeyDown(KeyCode.Space) && !isGrounded)
@@ -43,7 +46,7 @@ public class PlayerMovement : MonoBehaviour
         }
         if (dashTimer < dashCD)
             dashTimer += Time.deltaTime;
-       
+    
     }
     void FixedUpdate()
     {
@@ -54,14 +57,37 @@ public class PlayerMovement : MonoBehaviour
         {
             if (axiX != 0)
             {
-                this.GetComponent<Animator>().SetBool("runing", true);
-                this.GetComponent<Animator>().SetBool("Stoping", false);
+                this.GetComponent<Animator>().SetBool("moving", true);
                 rb.velocity = (new Vector3(-axiX * speed, rb.velocity.y, 0));
+                if (axiX == 1 && (this.gameObject.transform.eulerAngles.y >= 270|| this.gameObject.transform.eulerAngles.y <= 100))
+                {
+                    rotatePJ(-1);
+                    Debug.Log(this.gameObject.transform.eulerAngles.y);
+                    this.GetComponent<Animator>().SetBool("turningrigth", true);
+                    if(this.gameObject.transform.eulerAngles.y <= 270&&this.gameObject.transform.eulerAngles.y>= 100)
+                    {
+                       this.GetComponent<Animator>().SetBool("turningrigth", false);
+                        this.gameObject.transform.rotation = faceRight;
+                    }
+                }
+                if (axiX == -1 && (this.gameObject.transform.eulerAngles.y >= 260 || this.gameObject.transform.eulerAngles.y <= 90))
+                {
+                    rotatePJ(1);
+                    this.GetComponent<Animator>().SetBool("turningleft", true);
+                    Debug.Log(this.gameObject.transform.eulerAngles.y);
+                    if (this.gameObject.transform.eulerAngles.y <= 260 && this.gameObject.transform.eulerAngles.y >= 90)
+                    {
+                        this.GetComponent<Animator>().SetBool("turningleft", false);
+                        this.gameObject.transform.rotation = faceLeft;
+                    }
+                }
+                //if (axiX == -1 && transform.eulerAngles.y <= 90)
+                //    rotatePJ(1);
+
             }
             else
             {
-                this.GetComponent<Animator>().SetBool("runing", false);
-                this.GetComponent<Animator>().SetBool("Stoping", true);
+                this.GetComponent<Animator>().SetBool("moving", false);
             }
         }
         #endregion
@@ -83,6 +109,7 @@ public class PlayerMovement : MonoBehaviour
         if (CheckSide(Vector3.up, col)&&col.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
+            this.GetComponent<Animator>().SetBool("jumping", false);
             rb.velocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
         }
@@ -133,5 +160,9 @@ public class PlayerMovement : MonoBehaviour
     {
         rb.useGravity = true;
         dashing = false;
+    }
+    void rotatePJ(int direction)
+    {
+        this.gameObject.transform.Rotate(0, 360 * direction*Time.deltaTime, 0);
     }
 }
