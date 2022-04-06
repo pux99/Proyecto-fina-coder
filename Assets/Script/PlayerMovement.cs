@@ -47,11 +47,23 @@ public class PlayerMovement : MonoBehaviour
     }
     void FixedUpdate()
     {
-       
+
         #region Movment    
-        
-        if(!walljumping&&!dashing)
-        rb.velocity=(new Vector3(-axiX* speed,rb.velocity.y,0));
+
+        if (!walljumping && !dashing)
+        {
+            if (axiX != 0)
+            {
+                this.GetComponent<Animator>().SetBool("runing", true);
+                this.GetComponent<Animator>().SetBool("Stoping", false);
+                rb.velocity = (new Vector3(-axiX * speed, rb.velocity.y, 0));
+            }
+            else
+            {
+                this.GetComponent<Animator>().SetBool("runing", false);
+                this.GetComponent<Animator>().SetBool("Stoping", true);
+            }
+        }
         #endregion
 
         
