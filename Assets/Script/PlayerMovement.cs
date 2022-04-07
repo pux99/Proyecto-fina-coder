@@ -120,12 +120,18 @@ public class PlayerMovement : MonoBehaviour
     private void OnCollisionExit(Collision col)
     {
         if (col.gameObject.CompareTag("Wall"))
+        {
             touchinWall = false;
+            this.GetComponent<Animator>().SetBool("onWall", false);
+        }
     }
     private void OnCollisionStay(Collision col)
     {
         if (col.gameObject.CompareTag("Wall"))
+        { 
             touchinWall = true;
+            this.GetComponent<Animator>().SetBool("onWall", true);
+        }
     }
     bool CheckSide(Vector3 standarSide,Collision col)
     {
