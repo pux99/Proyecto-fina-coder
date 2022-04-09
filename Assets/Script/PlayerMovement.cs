@@ -5,7 +5,9 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     #region Varibles
-    public float speed, jump, jumpCD, wallJumpX, wallJumpY, wallJumpTimer, dashForce, dashduration, dashCD;
+    public Vector3 spawnPoint;
+    public GameObject smock,test;
+    public float speed, jump, jumpCD, wallJumpX, wallJumpY, wallJumpTimer, dashForce, dashduration, dashCD, ultimaDireccion,life;
     float dashTimer;
     public Rigidbody rb;
     float axiX;
@@ -16,6 +18,8 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
+        life = 100;
+        dashTimer = dashCD;
         faceLeft = Quaternion.Euler(0, 90, 0);
         faceRight = Quaternion.Euler(0, 270, 0);
         rb = this.GetComponent<Rigidbody>();
@@ -23,6 +27,12 @@ public class PlayerMovement : MonoBehaviour
     }
     private void Update()
     {
+        if(life<=0)
+        {
+            Dead();
+        }
+        if((gameObject.transform.eulerAngles.y!=90&& gameObject.transform.eulerAngles.y != 270)||axiX!=0)
+        rotatePJ(ultimaDireccion);
         axiX = Input.GetAxis("Horizontal");
         if (isGrounded && Input.GetKeyDown(KeyCode.Space))
         {
@@ -36,8 +46,9 @@ public class PlayerMovement : MonoBehaviour
             walljumping = true;
             Invoke(nameof(WallJumpEnd), wallJumpTimer);
         }
-        if (Input.GetKeyDown(KeyCode.LeftShift)&&dashCD<dashTimer)
-        { 
+        if (Input.GetKeyDown(KeyCode.LeftShift)&&dashCD<=dashTimer)
+        {
+            test =Instantiate(smock, transform.position, Quaternion.identity, this.transform);
             rb.useGravity = false;
             rb.velocity = new Vector3(-axiX*dashForce, 0, 0);
             dashing = true;
@@ -59,30 +70,18 @@ public class PlayerMovement : MonoBehaviour
             {
                 this.GetComponent<Animator>().SetBool("moving", true);
                 rb.velocity = (new Vector3(-axiX * speed, rb.velocity.y, 0));
-                if (axiX == 1 && (this.gameObject.transform.eulerAngles.y >= 270|| this.gameObject.transform.eulerAngles.y <= 100))
+                
+                if (axiX == 1 && gameObject.transform.eulerAngles.y!=270)
                 {
-                    rotatePJ(-1);
-                    Debug.Log(this.gameObject.transform.eulerAngles.y);
+                    ultimaDireccion = 1;
                     this.GetComponent<Animator>().SetBool("turningrigth", true);
-                    if(this.gameObject.transform.eulerAngles.y <= 270&&this.gameObject.transform.eulerAngles.y>= 100)
-                    {
-                       this.GetComponent<Animator>().SetBool("turningrigth", false);
-                        this.gameObject.transform.rotation = faceRight;
-                    }
                 }
-                if (axiX == -1 && (this.gameObject.transform.eulerAngles.y >= 260 || this.gameObject.transform.eulerAngles.y <= 90))
+                if (axiX == -1 && gameObject.transform.eulerAngles.y != 90)
                 {
-                    rotatePJ(1);
+                    ultimaDireccion = -1;
                     this.GetComponent<Animator>().SetBool("turningleft", true);
-                    Debug.Log(this.gameObject.transform.eulerAngles.y);
-                    if (this.gameObject.transform.eulerAngles.y <= 260 && this.gameObject.transform.eulerAngles.y >= 90)
-                    {
-                        this.GetComponent<Animator>().SetBool("turningleft", false);
-                        this.gameObject.transform.rotation = faceLeft;
-                    }
                 }
-                //if (axiX == -1 && transform.eulerAngles.y <= 90)
-                //    rotatePJ(1);
+
 
             }
             else
@@ -90,19 +89,7 @@ public class PlayerMovement : MonoBehaviour
                 this.GetComponent<Animator>().SetBool("moving", false);
             }
         }
-        #endregion
-
-        
-        
-        //if (wallSide == "left" && touchinWall && Input.GetKeyDown(KeyCode.Space))
-        //    rb.AddForce(new Vector3(+1, 3, 0).normalized * wallJump, ForceMode.Impulse);
-        if (Input.GetKeyDown(KeyCode.LeftShift) && dashCD <= 0)
-        {
-            //rb.AddForce(transform.right * -Input.GetAxis("Horizontal") * dashForce, ForceMode.VelocityChange);
-            rb.velocity = (transform.right * -Input.GetAxis("Horizontal") * dashForce);
-            dashCD = 3;
-        }
-        
+        #endregion        
     }
     private void OnCollisionEnter(Collision col)
     {
@@ -131,6 +118,17 @@ public class PlayerMovement : MonoBehaviour
         { 
             touchinWall = true;
             this.GetComponent<Animator>().SetBool("onWall", true);
+        }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.CompareTag("Respawn"))
+        {
+            spawnPoint = other.gameObject.transform.position;
+        }
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            life -= 10;
         }
     }
     bool CheckSide(Vector3 standarSide,Collision col)
@@ -164,11 +162,30 @@ public class PlayerMovement : MonoBehaviour
     }
     void EndOfDash()
     {
+        Destroy(test,0.05f);
         rb.useGravity = true;
         dashing = false;
     }
-    void rotatePJ(int direction)
+    void rotatePJ(float direction)
+    {   
+        float rotacion = gameObject.transform.eulerAngles.y;
+        if((rotacion<90&&rotacion>-1)||(rotacion<360&&rotacion>270)||(rotacion==90&&direction>=1)|| (rotacion == 270 && direction <= -1))
+        gameObject.transform.Rotate(0, 360 * -direction*Time.deltaTime, 0);
+        if (rotacion > 90 && rotacion <= 120)
+        {
+            gameObject.transform.rotation = faceLeft;
+            this.GetComponent<Animator>().SetBool("turningleft", false);
+        }
+        if (rotacion < 270 && rotacion >= 250)
+        {
+            gameObject.transform.rotation = faceRight;
+            this.GetComponent<Animator>().SetBool("turningrigth", false);
+            
+        }
+    }
+    void Dead()
     {
-        this.gameObject.transform.Rotate(0, 360 * direction*Time.deltaTime, 0);
+        transform.position = spawnPoint;
+        life = 100;
     }
 }
