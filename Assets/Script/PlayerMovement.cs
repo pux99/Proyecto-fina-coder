@@ -6,13 +6,12 @@ public class PlayerMovement : MonoBehaviour
 {
     #region Varibles
     public Vector3 spawnPoint;
-    public GameObject smock,test;
-    public float speed, jump, jumpCD, wallJumpX, wallJumpY, wallJumpTimer, dashForce, dashduration, dashCD, ultimaDireccion,life;
-    float dashTimer;
-    public Rigidbody rb;
-    float axiX;
+    public float speed, jump, wallJumpX, wallJumpY, wallJumpTimer, dashForce, dashduration, dashCD, dashTimer, ultimaDireccion,life,invultimer;
+    float proyectileCD=1, axiX;
+    Rigidbody rb;
     Quaternion faceRight,faceLeft;
     int wallSide;
+    public GameObject smock, test, projectiel;
     public bool touchinWall, isGrounded,walljumping,dashing;
     #endregion
 
@@ -27,36 +26,50 @@ public class PlayerMovement : MonoBehaviour
     }
     private void Update()
     {
+        if (invultimer>=0)
+        {
+            invultimer-=Time.deltaTime;
+        }
+        if(Input.GetKeyDown(KeyCode.Z))
+        {
+            ThrowProjectile();
+        }
         if(life<=0)
         {
             Dead();
         }
-        if((gameObject.transform.eulerAngles.y!=90&& gameObject.transform.eulerAngles.y != 270)||axiX!=0)
-        rotatePJ(ultimaDireccion);
+        if (Input.GetKeyDown(KeyCode.LeftShift) && dashCD <= dashTimer)
+        {
+            //test = Instantiate(smock, transform.position, Quaternion.identity, this.transform);
+            rb.useGravity = false;
+            rb.velocity = new Vector3(-axiX * dashForce, 0, 0);
+            dashing = true;
+            Invoke(nameof(EndOfDash), dashduration);
+            dashTimer = 0;
+        }
+
+        if (dashTimer < dashCD)
+            dashTimer += Time.deltaTime;
+
+        if ( (gameObject.transform.eulerAngles.y!=90 && gameObject.transform.eulerAngles.y != 270) || axiX!=0)
+        RotatePJ(ultimaDireccion);
+
         axiX = Input.GetAxis("Horizontal");
+
         if (isGrounded && Input.GetKeyDown(KeyCode.Space))
         {
             rb.AddForce(transform.up * jump);
             this.GetComponent<Animator>().SetBool("jumping", true);
-            isGrounded = false;
         }
+
         if (touchinWall && Input.GetKeyDown(KeyCode.Space) && !isGrounded)
         {
             rb.velocity = new Vector3(wallSide * wallJumpX, wallJumpY, 0);
             walljumping = true;
             Invoke(nameof(WallJumpEnd), wallJumpTimer);
         }
-        if (Input.GetKeyDown(KeyCode.LeftShift)&&dashCD<=dashTimer)
-        {
-            test =Instantiate(smock, transform.position, Quaternion.identity, this.transform);
-            rb.useGravity = false;
-            rb.velocity = new Vector3(-axiX*dashForce, 0, 0);
-            dashing = true;
-            Invoke(nameof(EndOfDash), dashduration);
-            dashTimer = 0;
-        }
-        if (dashTimer < dashCD)
-            dashTimer += Time.deltaTime;
+
+       
     
     }
     void FixedUpdate()
@@ -100,35 +113,67 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
         }
-        if(col.gameObject.CompareTag("Wall"))
-        wallSide = CheckWallSide(col);
-
+        switch (col.gameObject.tag)
+        {
+            case "Wall":
+                wallSide = CheckWallSide(col);
+                break;
+            case "Enemy":
+                if (invultimer <= 0)
+                {
+                    life -= 10;
+                    invultimer = 1;
+                }
+                break;
+            default:
+                break;
+        }
+        
     }
     private void OnCollisionExit(Collision col)
     {
-        if (col.gameObject.CompareTag("Wall"))
+        switch (col.gameObject.tag)
         {
-            touchinWall = false;
-            this.GetComponent<Animator>().SetBool("onWall", false);
+            case "Wall":
+                touchinWall = false;
+                this.GetComponent<Animator>().SetBool("onWall", false);
+                break;
+            case "Ground":
+                isGrounded = false;
+                this.GetComponent<Animator>().SetBool("jumping", true);
+                break;
+            default:
+                break;
         }
     }
     private void OnCollisionStay(Collision col)
     {
-        if (col.gameObject.CompareTag("Wall"))
-        { 
-            touchinWall = true;
-            this.GetComponent<Animator>().SetBool("onWall", true);
+        switch (col.gameObject.tag)
+        {
+            case "Wall":
+                touchinWall = true;
+                this.GetComponent<Animator>().SetBool("onWall", true);
+                break;
+            default:
+                break;
         }
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.CompareTag("Respawn"))
+        switch (other.gameObject.tag)
         {
-            spawnPoint = other.gameObject.transform.position;
-        }
-        if (other.gameObject.CompareTag("Enemy"))
-        {
-            life -= 10;
+            case "Respawn":
+                spawnPoint = other.gameObject.transform.position;
+                break;
+            case "Enemy":
+                if (invultimer <= 0)
+                {
+                    life -= 10;
+                    invultimer = 1;
+                }
+                break;
+            default:
+                break;
         }
     }
     bool CheckSide(Vector3 standarSide,Collision col)
@@ -166,7 +211,7 @@ public class PlayerMovement : MonoBehaviour
         rb.useGravity = true;
         dashing = false;
     }
-    void rotatePJ(float direction)
+    void RotatePJ(float direction)
     {   
         float rotacion = gameObject.transform.eulerAngles.y;
         if((rotacion<90&&rotacion>-1)||(rotacion<360&&rotacion>270)||(rotacion==90&&direction>=1)|| (rotacion == 270 && direction <= -1))
@@ -187,5 +232,14 @@ public class PlayerMovement : MonoBehaviour
     {
         transform.position = spawnPoint;
         life = 100;
+    }
+    void ThrowProjectile()
+    {
+        proyectileCD += Time.deltaTime;
+        if (proyectileCD >= 0.5f)
+        {
+            Instantiate(projectiel, transform.position, Quaternion.identity, this.transform);
+            proyectileCD = 0;
+        }
     }
 }
