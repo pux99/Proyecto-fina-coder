@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7451825326776735247}
   - component: {fileID: 7451825326776735246}
   - component: {fileID: 7451825326776735235}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: AssasinLog
   m_TagString: Enemy
   m_Icon: {fileID: 0}

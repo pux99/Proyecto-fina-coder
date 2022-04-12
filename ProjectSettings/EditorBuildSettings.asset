@@ -8,4 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Playeable/Forest.unity
     guid: 81bdb9ab1f2ce8b4a8289b3a9de330a0
+  - enabled: 1
+    path: Assets/Scenes/Testing/MageTower.unity
+    guid: 8496be206e1e39b45b9b698ee558f74b
   m_configObjects: {}
