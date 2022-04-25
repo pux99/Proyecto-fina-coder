@@ -6,7 +6,8 @@ public class PlayerMovement : MonoBehaviour
 {
     #region Varibles
     public Vector3 spawnPoint;
-    public float speed, jump, wallJumpX, wallJumpY, wallJumpTimer, dashForce, dashduration, dashCD, dashTimer, ultimaDireccion,life,invultimer;
+    public float speed, jump, wallJumpX, wallJumpY, wallJumpTimer, dashForce, dashduration,  ultimaDireccion,invultimer;
+    public static float life, dashCD, dashTimer;
     float proyectileCD=1, axiX;
     Rigidbody rb;
     Quaternion faceRight,faceLeft;
@@ -18,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         life = 100;
+        dashCD = 0.5f;
         dashTimer = dashCD;
         faceLeft = Quaternion.Euler(0, 90, 0);
         faceRight = Quaternion.Euler(0, 270, 0);
