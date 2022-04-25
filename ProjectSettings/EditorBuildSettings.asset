@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Playeable/PreEntrega.unity
     guid: c45531fb4dd7dd14ebbeb3c5369fc3d9
+  - enabled: 1
+    path: Assets/Scenes/Playeable/Menu.unity
+    guid: 8282b13827fba8e4dbccae9f8d7222b3
   m_configObjects: {}
