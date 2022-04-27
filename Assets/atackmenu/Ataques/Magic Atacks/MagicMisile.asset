@@ -18,4 +18,4 @@ MonoBehaviour:
   icono: {fileID: 21300000, guid: 4029a9cfeb86f134c9c5af05993eaac8, type: 3}
   elemento: Arcano
   tipo: Ataque
-  CD: 0
+  CD: 1

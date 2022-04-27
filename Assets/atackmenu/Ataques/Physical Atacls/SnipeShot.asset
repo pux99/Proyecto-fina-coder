@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SnipeShot
   m_EditorClassIdentifier: 
   nombre: snipeshot
-  danio: 0
-  objetivos: 0
+  danio: 100
+  objetivos: 1
   icono: {fileID: 21300000, guid: 530bcabb1501d8148a19a77465ecac03, type: 3}
-  fuerzaRequerida: 0
+  fuerzaRequerida: 1

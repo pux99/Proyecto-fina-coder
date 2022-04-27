@@ -24,12 +24,12 @@ public class AtacksDisplay : MonoBehaviour
         switch(drop.value)
         {
             case 0:
-                stats.text = ("Nombre:" + spell[i].nombre + "\n\nTipo:" + spell[i].tipo + "\n\nElemento:" + spell[i].elemento + "\n\nDaño:" + spell[i].danio);
+                stats.text = ("Nombre:" + spell[i].nombre + "\n\nTipo:" + spell[i].tipo + "\n\nElemento:" + spell[i].elemento + "\n\nDaño:" + spell[i].danio+"\n\nEnfriamiento:" + spell[i].CD);
                 test.sprite = spell[i].icono;
                 spell[i].mostrarme();
                 break;
             case 1:
-                stats.text = ("Nombre:" + atack[i].nombre + "\n\nTipo:" +  "\n\nDaño:" + atack[i].danio);
+                stats.text = ("Nombre:" + atack[i].nombre + "\n\nTipo:" +  "\n\nDaño:" + atack[i].danio + "\n\nFuerza Regerida:" + atack[i].fuerzaRequerida);
                 test.sprite = atack[i].icono;
                 atack[i].mostrarme();
                 break;
