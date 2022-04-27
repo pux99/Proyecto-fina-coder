@@ -2,14 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AssasinLog : MonoBehaviour
+public class AssasinLog : enemyProjectile
 {
-    // Start is called before the first frame update
-
-    public float speed;
     void Start()
     {
-        Destroy(this.gameObject, 20);
+        destructionTimer = 20;
+        damage = 20;
     }
 
     // Update is called once per frame

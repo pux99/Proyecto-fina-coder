@@ -123,7 +123,7 @@ public class PlayerMovement : MonoBehaviour
             case "Enemy":
                 if (invultimer <= 0)
                 {
-                    life -= 10;
+                    life -= col.gameObject.GetComponent<AssasinLog>().damage;
                     invultimer = 1;
                 }
                 break;
@@ -170,7 +170,7 @@ public class PlayerMovement : MonoBehaviour
             case "Enemy":
                 if (invultimer <= 0)
                 {
-                    life -= 10;
+                    life -= other.gameObject.GetComponent<Fireball>().damage;
                     invultimer = 1;
                 }
                 break;

@@ -2,14 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Fireball : MonoBehaviour
+public class Fireball : enemyProjectile
 {
-    public int direccion;
-    public float speed;   
-    // Start is called before the first frame update
     void Start()
     {
-        Destroy(gameObject, 3);
+        destructionTimer = 3;
+        damage = 10;
     }
     
     // Update is called once per frame
