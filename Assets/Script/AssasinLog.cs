@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
-public class AssasinLog : enemyProjectile
+public class AssasinLog : EnemyProjectile
 {
     void Start()
     {
         destructionTimer = 20;
-        damage = 20;
+        damage = 100;
     }
 
     // Update is called once per frame
@@ -15,15 +16,7 @@ public class AssasinLog : enemyProjectile
     {
         this.GetComponent<Rigidbody>().AddForce(transform.right * speed); ;
     }
-    /*private void OnCollisionEnter(Collision col)
-    {
-        if(col.gameObject.CompareTag("Player"))
-        this.gameObject.GetComponent<Collider>().isTrigger = true;
-    }
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-            this.gameObject.GetComponent<Collider>().isTrigger = false;
-    }
-    */
+    
+   
+    
 }

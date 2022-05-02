@@ -36,13 +36,13 @@ public class AtacksDisplay : MonoBehaviour
         }
         }
 
-    public void next()
+    public void Next()
     {
         i++;
         if (i == 5)
             i = 0;
     }
-    public void prev()
+    public void Prev()
     {
         i--;
         if(i==-1)

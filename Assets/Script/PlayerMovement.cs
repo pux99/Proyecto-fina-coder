@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -15,16 +16,21 @@ public class PlayerMovement : MonoBehaviour
     public GameObject smock, test, projectiel;
     public bool touchinWall, isGrounded,walljumping,dashing;
     #endregion
+    #region Events
+    public static event Action ActiveFog;
+    #endregion
 
     void Start()
     {
+        
+        EnemyProjectile.Damage += ResiveDamage;
         life = 100;
         dashCD = 0.5f;
         dashTimer = dashCD;
         faceLeft = Quaternion.Euler(0, 90, 0);
         faceRight = Quaternion.Euler(0, 270, 0);
         rb = this.GetComponent<Rigidbody>();
-        
+
     }
     private void Update()
     {
@@ -123,7 +129,7 @@ public class PlayerMovement : MonoBehaviour
             case "Enemy":
                 if (invultimer <= 0)
                 {
-                    life -= col.gameObject.GetComponent<AssasinLog>().damage;
+                    //life -= col.gameObject.GetComponent<AssasinLog>().damage;
                     invultimer = 1;
                 }
                 break;
@@ -177,6 +183,11 @@ public class PlayerMovement : MonoBehaviour
             default:
                 break;
         }
+    }
+    void ResiveDamage(float damage)
+    {
+        Debug.Log("el evento fue resivido por" + gameObject.name);
+        life -= damage;
     }
     bool CheckSide(Vector3 standarSide,Collision col)
     {
@@ -233,7 +244,19 @@ public class PlayerMovement : MonoBehaviour
     void Dead()
     {
         transform.position = spawnPoint;
+        ActiveFog?.Invoke();
+        Debug.Log("el evento fue llamado por" + gameObject.name);
         life = 100;
+    }
+    public void shrinkHandler()
+    {
+        transform.localScale *= .5f;
+        Debug.Log("el evento fue resivido por" + gameObject.name);
+    }
+    public void growHandler()
+    {
+        transform.localScale *= 2;
+        Debug.Log("el evento fue resivido por" + gameObject.name);
     }
     void ThrowProjectile()
     {
