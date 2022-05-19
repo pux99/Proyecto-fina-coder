@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MovingCharater
 {
     #region Varibles
     public Vector3 spawnPoint;
     public float speed, jump, wallJumpX, wallJumpY, wallJumpTimer, dashForce, dashduration,  ultimaDireccion,invultimer;
     public static float life, dashCD, dashTimer;
-    float proyectileCD=1, axiX;
+    float proyectileCD=1;
     Rigidbody rb;
     Quaternion faceRight,faceLeft;
-    int wallSide;
-    public GameObject smock, test, projectiel;
+    public int wallSide;
+    public GameObject smock, projectiel;
     public bool touchinWall, isGrounded,walljumping,dashing;
     #endregion
+
     #region Events
     public static event Action ActiveFog;
     #endregion
@@ -35,34 +36,26 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         if (invultimer>=0)
-        {
             invultimer-=Time.deltaTime;
-        }
-        if(Input.GetKeyDown(KeyCode.Z))
-        {
-            ThrowProjectile();
-        }
-        if(life<=0)
-        {
-            Dead();
-        }
-        if (Input.GetKeyDown(KeyCode.LeftShift) && dashCD <= dashTimer)
-        {
-            //test = Instantiate(smock, transform.position, Quaternion.identity, this.transform);
-            rb.useGravity = false;
-            rb.velocity = new Vector3(-axiX * dashForce, 0, 0);
-            dashing = true;
-            Invoke(nameof(EndOfDash), dashduration);
-            dashTimer = 0;
-        }
 
+        if(Input.GetKeyDown(KeyCode.Z))
+            ThrowProjectile();
+
+        if(life<=0)
+            Dead();
+
+        if (Input.GetKeyDown(KeyCode.LeftShift) && dashCD <= dashTimer)
+            Dash();
+        
         if (dashTimer < dashCD)
             dashTimer += Time.deltaTime;
-
-        if ( (gameObject.transform.eulerAngles.y!=90 && gameObject.transform.eulerAngles.y != 270) || axiX!=0)
-        RotatePJ(ultimaDireccion);
+        
 
         axiX = Input.GetAxis("Horizontal");
+        if (axiX == 1)
+            Turning(270);
+        if (axiX == -1)
+            Turning(90);
 
         if (isGrounded && Input.GetKeyDown(KeyCode.Space))
         {
@@ -76,9 +69,6 @@ public class PlayerMovement : MonoBehaviour
             walljumping = true;
             Invoke(nameof(WallJumpEnd), wallJumpTimer);
         }
-
-       
-    
     }
     void FixedUpdate()
     {
@@ -112,8 +102,17 @@ public class PlayerMovement : MonoBehaviour
         }
         #endregion        
     }
+    private void Dash()
+    {
+        rb.useGravity = false;
+        rb.velocity = new Vector3(-axiX * dashForce, 0, 0);
+        dashing = true;
+        Invoke(nameof(EndOfDash), dashduration);
+        dashTimer = 0;
+    }
     private void OnCollisionEnter(Collision col)
     {
+        
         if (CheckSide(Vector3.up, col)&&col.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
@@ -168,6 +167,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log(other.gameObject.tag);
         switch (other.gameObject.tag)
         {
             case "Respawn":
@@ -220,7 +220,6 @@ public class PlayerMovement : MonoBehaviour
     }
     void EndOfDash()
     {
-        Destroy(test,0.05f);
         rb.useGravity = true;
         dashing = false;
     }
@@ -248,12 +247,12 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log("el evento fue llamado por" + gameObject.name);
         life = 100;
     }
-    public void shrinkHandler()
+    public void ShrinkHandler()
     {
         transform.localScale *= .5f;
         Debug.Log("el evento fue resivido por" + gameObject.name);
     }
-    public void growHandler()
+    public void GrowHandler()
     {
         transform.localScale *= 2;
         Debug.Log("el evento fue resivido por" + gameObject.name);

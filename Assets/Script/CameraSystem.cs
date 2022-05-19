@@ -13,14 +13,7 @@ public class CameraSystem : MonoBehaviour
     public Vector3 characterPosition;
     public Vector3 exteriorPosition;
     public float camara=1;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-       
-    }
-
-    // Update is called once per frame
+   
     void Update()
     {
         InputCamara();

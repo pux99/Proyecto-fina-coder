@@ -7,10 +7,7 @@ using UnityEngine.Events;
 public class Events : MonoBehaviour
 {
     [SerializeField] private UnityEvent grow, shrink,nevar;
-    void Start()
-    {
-        
-    }
+    
 
     // Update is called once per frame
     void Update()
