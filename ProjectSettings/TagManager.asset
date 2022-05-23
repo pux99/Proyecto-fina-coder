@@ -15,12 +15,12 @@ TagManager:
   - 
   - Water
   - UI
+  - Charater
+  - CharaterCollicionBloker
+  - Ground
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Enemy
+  - EnemyAtack
   - 
   - 
   - 
