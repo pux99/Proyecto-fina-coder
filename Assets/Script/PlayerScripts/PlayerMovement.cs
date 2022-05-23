@@ -10,7 +10,7 @@ public class PlayerMovement : MovingCharater
     public float  jump, wallJumpX, wallJumpY, wallJumpTimer, dashForce, dashduration;
     public static float  dashCD, dashTimer,displayLife;
     float proyectileCD=1;
-    string angle;
+    public string angle;
     float facing=1;
     Quaternion faceRight,faceLeft;
     public int wallSide;
@@ -38,11 +38,13 @@ public class PlayerMovement : MovingCharater
     }
     private void Update()
     {
+        
         displayLife = life;
         if (invultimer>=0)
             invultimer-=Time.deltaTime;
         if(proyectileCD > 0)
             proyectileCD -= Time.deltaTime;
+        this.GetComponent<Animator>().SetBool("spell", false);
         if (Input.GetKeyDown(KeyCode.Z))
             ThrowProjectile();
         if(life<=0)
@@ -55,14 +57,13 @@ public class PlayerMovement : MovingCharater
         if (dashTimer < dashCD)
             dashTimer += Time.deltaTime;
         
-
         axiX = Input.GetAxis("Horizontal");
-        if (axiX == 1)
+        if (Input.GetKeyDown(KeyCode.D))
         {
             angle = "left";
             facing = 1;
         }
-        if (axiX == -1)
+        if (Input.GetKeyDown(KeyCode.A))
         { 
             angle = "rigth";
             facing = -1;
@@ -218,14 +219,24 @@ public class PlayerMovement : MovingCharater
     private IEnumerator Melee()
     {
         meleeCol.SetActive(true);
-        yield return new WaitForSeconds(1);
+        this.GetComponent<Animator>().SetBool("attaking", true);
+        yield return new WaitForSeconds(.2f);
+        this.GetComponent<Animator>().SetBool("attaking", false);
         meleeCol.SetActive(false);
+    }
+    protected override IEnumerator ResiveDamageProperty(GameObject target)
+    {
+        this.GetComponent<Animator>().SetBool("getHit", true);
+        rb.velocity = new Vector3(1 *2 , 2, 0);
+        yield return new WaitForSeconds(0.1f);
+        this.GetComponent<Animator>().SetBool("getHit", false);
     }
     void ThrowProjectile()
     {
         GameObject disparo; 
         if (proyectileCD <= 0)
         {
+            this.GetComponent<Animator>().SetBool("spell", true);
             disparo = Instantiate(projectiel, transform.position + new Vector3(-facing * .5f, 1, 0), Quaternion.identity);
             disparo.GetComponent<PlayerProyectile>().direccion = -facing;
             proyectileCD = .5f;
