@@ -6,12 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Playeable/Forest.unity
-    guid: 81bdb9ab1f2ce8b4a8289b3a9de330a0
-  - enabled: 1
-    path: Assets/Scenes/Playeable/PreEntrega.unity
-    guid: c45531fb4dd7dd14ebbeb3c5369fc3d9
-  - enabled: 1
     path: Assets/Scenes/Playeable/Menu.unity
     guid: 8282b13827fba8e4dbccae9f8d7222b3
+  - enabled: 1
+    path: Assets/Scenes/Playeable/ForestMap.unity
+    guid: 76a13ba862f81f34e817f06b2c2c0557
+  - enabled: 1
+    path: Assets/Scenes/Playeable/CaveMap.unity
+    guid: 907dd297120118247b2b34fc3086f2c2
   m_configObjects: {}

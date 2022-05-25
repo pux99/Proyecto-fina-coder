@@ -9,7 +9,6 @@ public class Charaters : MonoBehaviour
     
     [HideInInspector]
     public Rigidbody rb;
-    [HideInInspector]
     public float invultimer;
 
     protected void ResiveHeal(float heal)
@@ -25,7 +24,7 @@ public class Charaters : MonoBehaviour
             if (invultimer <= 0)
             {
             life -= damage;
-            invultimer = .5f;
+            invultimer = 1f;
                 StartCoroutine( ResiveDamageProperty(target));
             }
         }

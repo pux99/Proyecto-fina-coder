@@ -8,15 +8,17 @@ public class PlayerMovement : MovingCharater
     #region Varibles
     public Vector3 spawnPoint;
     public float  jump, wallJumpX, wallJumpY, wallJumpTimer, dashForce, dashduration;
-    public static float  dashCD, dashTimer,displayLife;
-    float proyectileCD=1;
-    public string angle;
-    float facing=1;
-    Quaternion faceRight,faceLeft;
+    public static float  dashCD, dashTimer,displayLife,displayMana;
+    private float proyectileCD =1;
+    private float facing = 1;
+    public float mana;
+    private string angle;
+    private bool TurnigBlock;
+    public bool touchinWall, isGrounded, walljumping, dashing;
     public int wallSide;
     public GameObject smock, projectiel;
-    public bool touchinWall, isGrounded,walljumping,dashing;
-    GameObject meleeCol;
+    private GameObject meleeCol;
+    private Quaternion faceRight, faceLeft;
     #endregion
 
     #region Events
@@ -25,9 +27,11 @@ public class PlayerMovement : MovingCharater
 
     void Start()
     {
+        mana = 100;
         life = 100;
         meleeCol = transform.Find("MeleeHitColider").gameObject;
         Attack.Damage += ResiveDamage;
+        PickUpObject.PickUP += PickingUp;
         life = 100;
         dashCD = 2f;
         dashTimer = dashCD;
@@ -38,7 +42,7 @@ public class PlayerMovement : MovingCharater
     }
     private void Update()
     {
-        
+        displayMana = mana;
         displayLife = life;
         if (invultimer>=0)
             invultimer-=Time.deltaTime;
@@ -58,16 +62,20 @@ public class PlayerMovement : MovingCharater
             dashTimer += Time.deltaTime;
         
         axiX = Input.GetAxis("Horizontal");
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKey(KeyCode.D) && TurnigBlock==false)
         {
             angle = "left";
             facing = 1;
+            TurnigBlock = true;
         }
-        if (Input.GetKeyDown(KeyCode.A))
+        else TurnigBlock = false;
+        if (Input.GetKey(KeyCode.A)&& TurnigBlock == false)
         { 
             angle = "rigth";
             facing = -1;
+            TurnigBlock = true;
         }
+        else TurnigBlock = false;
         Turning(angle);
 
         if (isGrounded && Input.GetKeyDown(KeyCode.Space))
@@ -130,7 +138,7 @@ public class PlayerMovement : MovingCharater
                     InpactDirection = (transform.position - col.transform.position).normalized;
                     rb.AddForce(new Vector3(-1000*InpactDirection.x, 10*InpactDirection.y, 0));
                     life -= 10;
-                    invultimer = 1;
+                    invultimer = 1f;
                 }
                 break;
             default:
@@ -234,12 +242,25 @@ public class PlayerMovement : MovingCharater
     void ThrowProjectile()
     {
         GameObject disparo; 
-        if (proyectileCD <= 0)
+        if (proyectileCD <= 0 && mana>=10)
         {
             this.GetComponent<Animator>().SetBool("spell", true);
             disparo = Instantiate(projectiel, transform.position + new Vector3(-facing * .5f, 1, 0), Quaternion.identity);
             disparo.GetComponent<PlayerProyectile>().direccion = -facing;
+            mana -= 10;
             proyectileCD = .5f;
+        }
+    }
+    public void PickingUp(String type,float value)
+    {
+        switch (type)
+        {
+            case "Life": 
+                life += value;
+                break;
+            case "Mana":
+                mana += value;
+                break;
         }
     }
 }

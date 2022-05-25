@@ -24,7 +24,8 @@ public class GoblinScript : MovingCharater
 	public float spellCD;
 	private float spellCDCounter;
 	private String angle;
-	private bool Atacking;
+	public bool Atacking;
+	private bool atackdelay;
 	private bool dead;
 	private bool hit;
 	private int deadRandomizer;
@@ -32,9 +33,11 @@ public class GoblinScript : MovingCharater
 	[HideInInspector]
 	public GameObject meleeCol;
 	public GameObject magicAtk;
+	public GameObject drops;
     #endregion
     void Start()
 	{
+		Atacking = false;
 		anim = GetComponent<Animator>();
 		controller = GetComponent<CharacterController> ();
 		meleeCol = transform.Find("MeleeHitColider").gameObject;
@@ -65,7 +68,7 @@ public class GoblinScript : MovingCharater
 					if (battle_state == false)
 						runSpeed = 1.0f;
 					else
-						runSpeed = 2.6f;
+						runSpeed = 1.5f;
 				}
 
 				if (!Atacking && canPatrol)
@@ -84,6 +87,7 @@ public class GoblinScript : MovingCharater
 	void Patroling(float rigthEnd,float leftEnd)
     {
 		anim.SetInteger("battle", 0);
+		if(!hit)
 		anim.SetInteger("moving", 1);
 
 		if (transform.position.x > rigthEnd)
@@ -112,7 +116,7 @@ public class GoblinScript : MovingCharater
 		
 		if (!Atacking)
 		anim.SetInteger("moving", 2);
-		runSpeed = 2.6f;
+		runSpeed = 1.8f;
 		battle_state = true;
 		dist=transform.position.x - Player.transform.position.x;
 		if (transform.position.x < Player.transform.position.x)
@@ -124,24 +128,36 @@ public class GoblinScript : MovingCharater
 			direction = -1;
 			angle = "left";
 		}
-		if (dist <= 1 && dist>=-1 &&!Atacking)
+		if (dist <= 1.2 && dist>=-1.2 &&!atackdelay)
 		{
 			StartCoroutine(Melee());
+			Debug.Log("pegue");
 		}
+		if (dist <= 1f && dist >= -1f)
+		{
+			Atacking = true;
+			if(!hit)
+			anim.SetInteger("moving", 0);
+		}
+		else Atacking = false;
 	}
 
 	private IEnumerator Melee()
     {
 		Atacking = true;
+		atackdelay = true;
 		anim.SetInteger("moving", 0);
 
 		yield return new WaitForSeconds(0.1f);
 		anim.SetInteger("moving", 3);
+		yield return new WaitForSeconds(0.5f);
 		meleeCol.SetActive(true);
-
-		yield return new WaitForSeconds(.5f); 
+		yield return new WaitForSeconds(.5f);
 		meleeCol.SetActive(false);
+		anim.SetInteger("moving", 0);
 		Atacking = false;
+		yield return new WaitForSeconds(2);
+		atackdelay = false;
 	}
 
 	public void MagicAtack(GameObject Player)
@@ -202,6 +218,7 @@ public class GoblinScript : MovingCharater
 	}
 	protected void Dead(int typeOfDead)
 	{
+		int dropChance, droptype;
 		switch (type)
 		{
 			case GoblinType.chaman:
@@ -214,6 +231,10 @@ public class GoblinScript : MovingCharater
 				anim.SetInteger("moving", typeOfDead);
 				break;
 		}
+		dropChance = UnityEngine.Random.Range(0, 100);
+		droptype = UnityEngine.Random.Range(0, 2);
+		if(dropChance>50)
+		Instantiate(drops.transform.GetChild(droptype), transform.position + new Vector3(0, 1, 0), Quaternion.identity);
 		sounds(deadS);
 		Destroy(this.gameObject, 2);
 		dead = true;
