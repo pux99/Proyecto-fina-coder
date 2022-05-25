@@ -5,10 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class SceneChange : MonoBehaviour
 {
+    public int scene;
     private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Player"))
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(scene);
     }
-
+    public void changescene(int number)
+    {
+        SceneManager.LoadScene(number);
+    }
 }

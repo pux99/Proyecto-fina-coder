@@ -52,7 +52,7 @@ public class PlayerMovement : MovingCharater
         if (Input.GetKeyDown(KeyCode.Z))
             ThrowProjectile();
         if(life<=0)
-            Dead();
+            StartCoroutine( Dead());
         if(Input.GetKeyDown(KeyCode.X))
             StartCoroutine(Melee());
         if (Input.GetKeyDown(KeyCode.LeftShift) && dashCD <= dashTimer)
@@ -217,12 +217,14 @@ public class PlayerMovement : MovingCharater
         rb.useGravity = true;
         dashing = false;
     }
-    void Dead()
+    IEnumerator Dead()
     {
-        transform.position = spawnPoint;
-        ActiveFog?.Invoke();
-        Debug.Log("el evento fue llamado por" + gameObject.name);
         life = 100;
+        ColorManager.darken = true;
+        yield return new WaitForSeconds(2);
+        transform.position = spawnPoint;
+        yield return new WaitForSeconds(1);
+        ColorManager.darken = false;
     }
     private IEnumerator Melee()
     {
