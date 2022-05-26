@@ -6,11 +6,12 @@ using System;
 public class Attack : MonoBehaviour
 {
     public float damage;
+    protected bool melee;
     public static event Action<float, GameObject> Damage;
 
     protected virtual void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Ground"))
+        if (other.CompareTag("Ground")&&!melee)
         {
             Destroy(gameObject);
         }

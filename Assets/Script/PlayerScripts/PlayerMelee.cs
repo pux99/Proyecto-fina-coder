@@ -5,9 +5,8 @@ using System;
 
 public class PlayerMelee : Attack
 {
-    private void Start()
+    private void Awake()
     {
-        damage = 20;
+        melee = true;
     }
-    
 }

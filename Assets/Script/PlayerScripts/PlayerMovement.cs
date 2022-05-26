@@ -6,6 +6,10 @@ using System;
 public class PlayerMovement : MovingCharater
 {
     #region Varibles
+    public AudioSource magic;
+    public AudioSource getingHit;
+    public AudioSource Hiting;
+    public AudioSource deadS;
     public Vector3 spawnPoint;
     public float  jump, wallJumpX, wallJumpY, wallJumpTimer, dashForce, dashduration;
     public static float  dashCD, dashTimer,displayLife,displayMana;
@@ -115,9 +119,8 @@ public class PlayerMovement : MovingCharater
     private void OnCollisionEnter(Collision col)
     {
         Vector3 InpactDirection;
-        if (CheckSide(Vector3.up, col)&&col.gameObject.CompareTag("Ground"))
+        if (CheckSide(Vector3.up, col) && col.gameObject.CompareTag("Ground"))
         {
-            isGrounded = true;
             this.GetComponent<Animator>().SetBool("jumping", false);
             rb.velocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
@@ -160,6 +163,11 @@ public class PlayerMovement : MovingCharater
     }
     private void OnCollisionStay(Collision col)
     {
+        
+        if (CheckSide(Vector3.up, col) && col.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = true;
+        }
         switch (col.gameObject.tag)
         {
             case "Wall":
@@ -217,6 +225,7 @@ public class PlayerMovement : MovingCharater
     {
         life = 100;
         ColorManager.darken = true;
+        sounds(deadS);
         yield return new WaitForSeconds(2);
         transform.position = spawnPoint;
         yield return new WaitForSeconds(1);
@@ -227,6 +236,7 @@ public class PlayerMovement : MovingCharater
         meleeCol.SetActive(true);
         this.GetComponent<Animator>().SetBool("attaking", true);
         yield return new WaitForSeconds(.2f);
+        sounds(Hiting);
         this.GetComponent<Animator>().SetBool("attaking", false);
         meleeCol.SetActive(false);
     }
@@ -235,6 +245,7 @@ public class PlayerMovement : MovingCharater
         this.GetComponent<Animator>().SetBool("getHit", true);
         rb.velocity = new Vector3(1 *2 , 2, 0);
         yield return new WaitForSeconds(0.1f);
+        sounds(getingHit);
         this.GetComponent<Animator>().SetBool("getHit", false);
     }
     void ThrowProjectile()
@@ -243,11 +254,16 @@ public class PlayerMovement : MovingCharater
         if (proyectileCD <= 0 && mana>=10)
         {
             this.GetComponent<Animator>().SetBool("spell", true);
+            sounds(magic);
             disparo = Instantiate(projectiel, transform.position + new Vector3(-facing * .5f, 1, 0), Quaternion.identity);
             disparo.GetComponent<PlayerProyectile>().direccion = -facing;
             mana -= 10;
             proyectileCD = .5f;
         }
+    }
+    void sounds(AudioSource sound)
+    {
+        sound.Play();
     }
     public void PickingUp(String type,float value)
     {

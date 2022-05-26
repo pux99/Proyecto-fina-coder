@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class EnemyMelee : Attack
 {
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        damage = 20;
+        melee = true;
     }
 }

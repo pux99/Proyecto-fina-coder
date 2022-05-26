@@ -152,6 +152,7 @@ public class GoblinScript : MovingCharater
 		anim.SetInteger("moving", 3);
 		yield return new WaitForSeconds(0.5f);
 		meleeCol.SetActive(true);
+		sounds(Hiting);
 		yield return new WaitForSeconds(.5f);
 		meleeCol.SetActive(false);
 		anim.SetInteger("moving", 0);
@@ -187,11 +188,15 @@ public class GoblinScript : MovingCharater
     {
 		GameObject disparo;
 		yield return new WaitForSeconds(1);
-		sounds(Hiting);
-		disparo = Instantiate(magicAtk, transform.position + new Vector3(direction * .5f, 1, 0), Quaternion.identity);
-		disparo.GetComponent<EnemyProjectile>().direccion = direction;
-		disparo.GetComponent<Fireball>().normal = normal;
-		anim.SetInteger("moving", 0);
+        if (!dead)
+        {
+			sounds(Hiting);
+			disparo = Instantiate(magicAtk, transform.position + new Vector3(direction * .5f, 1, 0), Quaternion.identity);
+			disparo.GetComponent<EnemyProjectile>().direccion = direction;
+			disparo.GetComponent<Fireball>().normal = normal;
+			anim.SetInteger("moving", 0);
+
+		}
 
 	}
 	protected override IEnumerator ResiveDamageProperty(GameObject target)
@@ -219,6 +224,7 @@ public class GoblinScript : MovingCharater
 	protected void Dead(int typeOfDead)
 	{
 		int dropChance, droptype;
+		dead = true;
 		switch (type)
 		{
 			case GoblinType.chaman:
@@ -231,13 +237,13 @@ public class GoblinScript : MovingCharater
 				anim.SetInteger("moving", typeOfDead);
 				break;
 		}
+		StopAllCoroutines();
 		dropChance = UnityEngine.Random.Range(0, 100);
 		droptype = UnityEngine.Random.Range(0, 2);
 		if(dropChance>50)
 		Instantiate(drops.transform.GetChild(droptype), transform.position + new Vector3(0, 1, 0), Quaternion.identity);
 		sounds(deadS);
 		Destroy(this.gameObject, 2);
-		dead = true;
 	}
 	void sounds(AudioSource sound)
     {
