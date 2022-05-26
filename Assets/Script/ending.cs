@@ -5,7 +5,6 @@ using UnityEngine;
 public class ending : MonoBehaviour
 {
     public GameObject endscene;
-    public Transform camara;
     // Start is called before the first frame update
     void Start()
     {
