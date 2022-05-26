@@ -9,7 +9,6 @@ public class ActiveFog : MonoBehaviour
     void Start()
     {
         timer = 0;
-        PlayerMovement.ActiveFog += ActiveParticle;
         transform.gameObject.SetActive(false);
     }
     private void Update()

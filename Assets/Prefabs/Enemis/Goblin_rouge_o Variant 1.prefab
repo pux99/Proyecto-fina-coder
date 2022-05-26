@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 172560, guid: 00a11f3eb5ba2aa4a9fe95591be93e28, type: 3}
       propertyPath: m_Name
-      value: Goblin_rouge_o Variant 1 (1)
+      value: Goblin_rouge_o Variant 1
       objectReference: {fileID: 0}
     - target: {fileID: 470266, guid: 00a11f3eb5ba2aa4a9fe95591be93e28, type: 3}
       propertyPath: m_RootOrder
@@ -17,11 +17,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 470266, guid: 00a11f3eb5ba2aa4a9fe95591be93e28, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.34
+      value: 6.4650607
       objectReference: {fileID: 0}
     - target: {fileID: 470266, guid: 00a11f3eb5ba2aa4a9fe95591be93e28, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.96
+      value: 1.0000005
       objectReference: {fileID: 0}
     - target: {fileID: 470266, guid: 00a11f3eb5ba2aa4a9fe95591be93e28, type: 3}
       propertyPath: m_LocalPosition.z
@@ -59,6 +59,26 @@ PrefabInstance:
       propertyPath: m_Avatar
       value: 
       objectReference: {fileID: 9000000, guid: f80781be66fad4b4d8009b408672c2a0, type: 3}
+    - target: {fileID: 9510850, guid: 00a11f3eb5ba2aa4a9fe95591be93e28, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1212010176, guid: 00a11f3eb5ba2aa4a9fe95591be93e28, type: 3}
+      propertyPath: m_Size.y
+      value: 1.0000002
+      objectReference: {fileID: 0}
+    - target: {fileID: 1212010176, guid: 00a11f3eb5ba2aa4a9fe95591be93e28, type: 3}
+      propertyPath: m_Size.z
+      value: 1.321278
+      objectReference: {fileID: 0}
+    - target: {fileID: 1212010176, guid: 00a11f3eb5ba2aa4a9fe95591be93e28, type: 3}
+      propertyPath: m_Center.x
+      value: -3.1612718e-15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1212010176, guid: 00a11f3eb5ba2aa4a9fe95591be93e28, type: 3}
+      propertyPath: m_Center.z
+      value: 0.8606391
+      objectReference: {fileID: 0}
     - target: {fileID: 8577478577515459631, guid: 00a11f3eb5ba2aa4a9fe95591be93e28, type: 3}
       propertyPath: life
       value: 50
@@ -68,6 +88,18 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8577478577515459631, guid: 00a11f3eb5ba2aa4a9fe95591be93e28, type: 3}
+      propertyPath: deadS
+      value: 
+      objectReference: {fileID: 6125575411379000247, guid: 4acf03cf1ef7c4c44ae78dfec7e7f26d, type: 3}
+    - target: {fileID: 8577478577515459631, guid: 00a11f3eb5ba2aa4a9fe95591be93e28, type: 3}
+      propertyPath: drops
+      value: 
+      objectReference: {fileID: 4405943525189707149, guid: cf68018e4a6ed1b41a3b73c32b286859, type: 3}
+    - target: {fileID: 8577478577515459631, guid: 00a11f3eb5ba2aa4a9fe95591be93e28, type: 3}
+      propertyPath: Hiting
+      value: 
+      objectReference: {fileID: 4884429255622003294, guid: d47920e73d3b4264fa1d0e5ba68f829d, type: 3}
+    - target: {fileID: 8577478577515459631, guid: 00a11f3eb5ba2aa4a9fe95591be93e28, type: 3}
       propertyPath: maxLife
       value: 50
       objectReference: {fileID: 0}
@@ -76,8 +108,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7966079128641244699, guid: 86f1d7527ae6d4944a8ae0349689f4f3, type: 3}
     - target: {fileID: 8577478577515459631, guid: 00a11f3eb5ba2aa4a9fe95591be93e28, type: 3}
+      propertyPath: runSpeed
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8577478577515459631, guid: 00a11f3eb5ba2aa4a9fe95591be93e28, type: 3}
       propertyPath: canPatrol
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8577478577515459631, guid: 00a11f3eb5ba2aa4a9fe95591be93e28, type: 3}
+      propertyPath: getingHit
+      value: 
+      objectReference: {fileID: 1113842187840136072, guid: 6956783ccddcc264589c87a08b2ea32a, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 00a11f3eb5ba2aa4a9fe95591be93e28, type: 3}

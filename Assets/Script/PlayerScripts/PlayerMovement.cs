@@ -21,10 +21,6 @@ public class PlayerMovement : MovingCharater
     private Quaternion faceRight, faceLeft;
     #endregion
 
-    #region Events
-    public static event Action ActiveFog;
-    #endregion
-
     void Start()
     {
         mana = 100;
