@@ -14154,7 +14154,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 670017314}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 1.2469635, y: 0.00000011920929, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 640537138}
@@ -18183,10 +18183,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 883429140}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6e3fc5aa4f7dc3459c55cda8c8585b9, type: 3}
+  m_Script: {fileID: 11500000, guid: 41d8dc4cb60004a4e8f983d859a7b38e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 100
+  charaterManager: {fileID: 0}
 --- !u!65 &883429142
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -18208,7 +18208,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 883429140}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -42.7, y: -9.2, z: -0}
+  m_LocalPosition: {x: -42.7, y: -12.39, z: -0}
   m_LocalScale: {x: 0.4440003, y: 0.246, z: 0.52500033}
   m_Children: []
   m_Father: {fileID: 0}
@@ -24015,7 +24015,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1205067216}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.97550964, y: 0, z: 0.0000009536743}
+  m_LocalPosition: {x: 1.9757729, y: 0, z: 0.0000009536743}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 465200112}
@@ -31913,6 +31913,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 198915360171861544, guid: 9762601cb0529a542825e6c700afad4c, type: 3}
+      propertyPath: m_Name
+      value: UIVictoria
+      objectReference: {fileID: 0}
     - target: {fileID: 198915360706226239, guid: 9762601cb0529a542825e6c700afad4c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 2
@@ -31952,6 +31956,10 @@ PrefabInstance:
     - target: {fileID: 198915360706226239, guid: 9762601cb0529a542825e6c700afad4c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 198915360724594582, guid: 9762601cb0529a542825e6c700afad4c, type: 3}
+      propertyPath: m_text
+      value: Victoria
       objectReference: {fileID: 0}
     - target: {fileID: 198915360847866324, guid: 9762601cb0529a542825e6c700afad4c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -32441,8 +32449,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1607003982}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.0959, y: -0, z: 0}
-  m_LocalScale: {x: 1.0243564, y: 1, z: 1}
+  m_LocalPosition: {x: 4.245903, y: -7.1054274e-15, z: 0.00000011920929}
+  m_LocalScale: {x: 1.0493506, y: 1, z: 1}
   m_Children:
   - {fileID: 1819111403}
   m_Father: {fileID: 2082548566}
@@ -33135,10 +33143,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1640663456}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6e3fc5aa4f7dc3459c55cda8c8585b9, type: 3}
+  m_Script: {fileID: 11500000, guid: 41d8dc4cb60004a4e8f983d859a7b38e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 100
+  charaterManager: {fileID: 0}
 --- !u!65 &1640663458
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -34520,8 +34528,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1702501416}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 7.567566, y: 0.00000011920929, z: 0.000000059604645}
+  m_LocalScale: {x: 1.0338, y: 1, z: 1}
   m_Children:
   - {fileID: 1345672682}
   m_Father: {fileID: 2082548566}
