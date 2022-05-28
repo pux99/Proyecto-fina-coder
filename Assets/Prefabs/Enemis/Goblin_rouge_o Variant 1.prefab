@@ -11,17 +11,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: Goblin_rouge_o Variant 1
       objectReference: {fileID: 0}
+    - target: {fileID: 435880, guid: 00a11f3eb5ba2aa4a9fe95591be93e28, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 435880, guid: 00a11f3eb5ba2aa4a9fe95591be93e28, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 3.02
+      objectReference: {fileID: 0}
     - target: {fileID: 470266, guid: 00a11f3eb5ba2aa4a9fe95591be93e28, type: 3}
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 470266, guid: 00a11f3eb5ba2aa4a9fe95591be93e28, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.4650607
+      value: -23.1
       objectReference: {fileID: 0}
     - target: {fileID: 470266, guid: 00a11f3eb5ba2aa4a9fe95591be93e28, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.0000005
+      value: 1.42
       objectReference: {fileID: 0}
     - target: {fileID: 470266, guid: 00a11f3eb5ba2aa4a9fe95591be93e28, type: 3}
       propertyPath: m_LocalPosition.z
@@ -63,25 +71,37 @@ PrefabInstance:
       propertyPath: m_ApplyRootMotion
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 443052214, guid: 00a11f3eb5ba2aa4a9fe95591be93e28, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1212010176, guid: 00a11f3eb5ba2aa4a9fe95591be93e28, type: 3}
       propertyPath: m_Size.y
       value: 1.0000002
       objectReference: {fileID: 0}
     - target: {fileID: 1212010176, guid: 00a11f3eb5ba2aa4a9fe95591be93e28, type: 3}
       propertyPath: m_Size.z
-      value: 1.321278
+      value: 1.8474946
       objectReference: {fileID: 0}
     - target: {fileID: 1212010176, guid: 00a11f3eb5ba2aa4a9fe95591be93e28, type: 3}
       propertyPath: m_Center.x
-      value: -3.1612718e-15
+      value: 7.6467085e-16
       objectReference: {fileID: 0}
     - target: {fileID: 1212010176, guid: 00a11f3eb5ba2aa4a9fe95591be93e28, type: 3}
       propertyPath: m_Center.z
-      value: 0.8606391
+      value: 1.1237472
+      objectReference: {fileID: 0}
+    - target: {fileID: 1212010182, guid: 00a11f3eb5ba2aa4a9fe95591be93e28, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2369902272356996666, guid: 00a11f3eb5ba2aa4a9fe95591be93e28, type: 3}
+      propertyPath: damage
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8577478577515459631, guid: 00a11f3eb5ba2aa4a9fe95591be93e28, type: 3}
       propertyPath: life
-      value: 50
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 8577478577515459631, guid: 00a11f3eb5ba2aa4a9fe95591be93e28, type: 3}
       propertyPath: type
@@ -90,18 +110,22 @@ PrefabInstance:
     - target: {fileID: 8577478577515459631, guid: 00a11f3eb5ba2aa4a9fe95591be93e28, type: 3}
       propertyPath: deadS
       value: 
-      objectReference: {fileID: 6125575411379000247, guid: 4acf03cf1ef7c4c44ae78dfec7e7f26d, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 8577478577515459631, guid: 00a11f3eb5ba2aa4a9fe95591be93e28, type: 3}
       propertyPath: drops
       value: 
-      objectReference: {fileID: 4405943525189707149, guid: cf68018e4a6ed1b41a3b73c32b286859, type: 3}
+      objectReference: {fileID: 0}
+    - target: {fileID: 8577478577515459631, guid: 00a11f3eb5ba2aa4a9fe95591be93e28, type: 3}
+      propertyPath: mdist
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8577478577515459631, guid: 00a11f3eb5ba2aa4a9fe95591be93e28, type: 3}
       propertyPath: Hiting
       value: 
-      objectReference: {fileID: 4884429255622003294, guid: d47920e73d3b4264fa1d0e5ba68f829d, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 8577478577515459631, guid: 00a11f3eb5ba2aa4a9fe95591be93e28, type: 3}
       propertyPath: maxLife
-      value: 50
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 8577478577515459631, guid: 00a11f3eb5ba2aa4a9fe95591be93e28, type: 3}
       propertyPath: magicAtk
@@ -118,6 +142,6 @@ PrefabInstance:
     - target: {fileID: 8577478577515459631, guid: 00a11f3eb5ba2aa4a9fe95591be93e28, type: 3}
       propertyPath: getingHit
       value: 
-      objectReference: {fileID: 1113842187840136072, guid: 6956783ccddcc264589c87a08b2ea32a, type: 3}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 00a11f3eb5ba2aa4a9fe95591be93e28, type: 3}

@@ -1622,6 +1622,7 @@ GameObject:
   - component: {fileID: 14321722}
   - component: {fileID: 1105224400}
   - component: {fileID: 1105224396}
+  - component: {fileID: 308219870}
   m_Layer: 10
   m_Name: Goblin_shaman
   m_TagString: Enemy
@@ -1711,8 +1712,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 516ab4b99c60f5645b21b9cbe664009a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxLife: 50
-  life: 50
+  maxLife: 60
+  life: 60
   rb: {fileID: 0}
   invultimer: 0
   axiX: 0
@@ -1732,6 +1733,20 @@ MonoBehaviour:
   meleeCol: {fileID: 0}
   magicAtk: {fileID: 7966079128641244699, guid: 86f1d7527ae6d4944a8ae0349689f4f3, type: 3}
   drops: {fileID: 0}
+--- !u!136 &308219870
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 153964}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 1.5
+  m_Height: 4.5
+  m_Direction: 1
+  m_Center: {x: 0, y: 2.35, z: 0}
 --- !u!1 &154292
 GameObject:
   m_ObjectHideFlags: 0
@@ -2980,7 +2995,7 @@ BoxCollider:
   m_GameObject: {fileID: 1271896571}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 2.3, z: 0.7}

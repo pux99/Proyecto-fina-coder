@@ -317,6 +317,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 0
   speed: 3
-  destructionTimer: 0
+  destructionTimer: 3
   direccion: 1
   normal: {x: 0, y: 0, z: 0}

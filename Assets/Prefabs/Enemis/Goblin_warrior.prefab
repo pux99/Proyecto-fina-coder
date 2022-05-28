@@ -43,8 +43,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.0000002, z: 1.321278}
-  m_Center: {x: -3.1612718e-15, y: 2.3, z: 0.8606391}
+  m_Size: {x: 1, y: 1.0000002, z: 2.097038}
+  m_Center: {x: 2.7021317e-15, y: 2.3, z: 1.2485187}
 --- !u!114 &7180861732237569852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57,7 +57,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6e3fc5aa4f7dc3459c55cda8c8585b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 0
+  damage: 10
 --- !u!1 &1395182709405549009
 GameObject:
   m_ObjectHideFlags: 0
@@ -1008,7 +1008,7 @@ Transform:
   m_GameObject: {fileID: 2012271119023039307}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0.000012715654, y: -0.33333617, z: -115.28017}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalScale: {x: 0.30000013, y: 0.3, z: 0.30000013}
   m_Children:
   - {fileID: 2012271119022729945}
   - {fileID: 2012271119022737667}
@@ -1053,7 +1053,7 @@ CharacterController:
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
+  m_MinMoveDistance: 0
   m_Center: {x: 0, y: 2.35, z: 0}
 --- !u!114 &7456816741058240397
 MonoBehaviour:
@@ -1073,9 +1073,9 @@ MonoBehaviour:
   invultimer: 0
   axiX: 0
   speed: 1
-  getingHit: {fileID: 1113842187840136072, guid: 6956783ccddcc264589c87a08b2ea32a, type: 3}
-  Hiting: {fileID: 4884429255622003294, guid: d47920e73d3b4264fa1d0e5ba68f829d, type: 3}
-  deadS: {fileID: 6125575411379000247, guid: 4acf03cf1ef7c4c44ae78dfec7e7f26d, type: 3}
+  getingHit: {fileID: 0}
+  Hiting: {fileID: 0}
+  deadS: {fileID: 0}
   type: 0
   canPatrol: 1
   battle_state: 0

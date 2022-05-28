@@ -20,19 +20,20 @@ public class PlayerMovement : MovingCharater
     private bool TurnigBlock;
     public bool touchinWall, isGrounded, walljumping, dashing;
     public int wallSide;
-    public GameObject smock, projectiel;
+    public CharacterManager charaterManager; 
+    public GameObject projectiel;
     private GameObject meleeCol;
     private Quaternion faceRight, faceLeft;
     #endregion
 
     void Start()
     {
-        mana = 100;
-        life = 100;
+        charaterManager = CharacterManager.instans;
+        mana = charaterManager.GetComponent<CharacterManager>().mana;
+        life = charaterManager.GetComponent<CharacterManager>().life;
         meleeCol = transform.Find("MeleeHitColider").gameObject;
         Attack.Damage += ResiveDamage;
         PickUpObject.PickUP += PickingUp;
-        life = 100;
         dashCD = 2f;
         dashTimer = dashCD;
         faceLeft = Quaternion.Euler(0, 90, 0);
@@ -44,16 +45,18 @@ public class PlayerMovement : MovingCharater
     {
         displayMana = mana;
         displayLife = life;
+        mana= charaterManager.GetComponent<CharacterManager>().mana ;
+        life =charaterManager.GetComponent<CharacterManager>().life ;
         if (invultimer>=0)
             invultimer-=Time.deltaTime;
         if(proyectileCD > 0)
             proyectileCD -= Time.deltaTime;
         this.GetComponent<Animator>().SetBool("spell", false);
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.E))
             ThrowProjectile();
         if(life<=0)
             StartCoroutine( Dead());
-        if(Input.GetKeyDown(KeyCode.X))
+        if(Input.GetKeyDown(KeyCode.Q))
             StartCoroutine(Melee());
         if (Input.GetKeyDown(KeyCode.LeftShift) && dashCD <= dashTimer)
             Dash();
@@ -136,7 +139,7 @@ public class PlayerMovement : MovingCharater
                     Debug.Log("au");
                     InpactDirection = (transform.position - col.transform.position).normalized;
                     rb.AddForce(new Vector3(-1000*InpactDirection.x, 10*InpactDirection.y, 0));
-                    life -= 10;
+                    charaterManager.GetComponent<CharacterManager>().life -= 10;
                     invultimer = 1f;
                 }
                 break;
@@ -223,7 +226,8 @@ public class PlayerMovement : MovingCharater
     }
     IEnumerator Dead()
     {
-        life = 100;
+        charaterManager.GetComponent<CharacterManager>().life=100;
+        charaterManager.GetComponent<CharacterManager>().mana = 100;
         ColorManager.darken = true;
         sounds(deadS);
         yield return new WaitForSeconds(2);
@@ -242,8 +246,9 @@ public class PlayerMovement : MovingCharater
     }
     protected override IEnumerator ResiveDamageProperty(GameObject target)
     {
+        charaterManager.GetComponent<CharacterManager>().life -=10 ;
         this.GetComponent<Animator>().SetBool("getHit", true);
-        rb.velocity = new Vector3(1 *2 , 2, 0);
+        rb.velocity = new Vector3(0, 2, 0);
         yield return new WaitForSeconds(0.1f);
         sounds(getingHit);
         this.GetComponent<Animator>().SetBool("getHit", false);
@@ -257,7 +262,7 @@ public class PlayerMovement : MovingCharater
             sounds(magic);
             disparo = Instantiate(projectiel, transform.position + new Vector3(-facing * .5f, 1, 0), Quaternion.identity);
             disparo.GetComponent<PlayerProyectile>().direccion = -facing;
-            mana -= 10;
+            charaterManager.GetComponent<CharacterManager>().mana -= 10;
             proyectileCD = .5f;
         }
     }
@@ -269,12 +274,17 @@ public class PlayerMovement : MovingCharater
     {
         switch (type)
         {
-            case "Life": 
-                life += value;
+            case "Life":
+                charaterManager.GetComponent<CharacterManager>().life += value;
                 break;
             case "Mana":
-                mana += value;
+                charaterManager.GetComponent<CharacterManager>().mana += value;
                 break;
         }
+    }
+    public void ResetValues()
+    {
+        charaterManager.GetComponent<CharacterManager>().life = 100;
+        charaterManager.GetComponent<CharacterManager>().mana = 100;
     }
 }

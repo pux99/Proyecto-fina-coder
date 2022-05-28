@@ -37,6 +37,7 @@ public class GoblinScript : MovingCharater
     #endregion
     void Start()
 	{
+		angle = "rigth";
 		Atacking = false;
 		anim = GetComponent<Animator>();
 		controller = GetComponent<CharacterController> ();
@@ -58,9 +59,20 @@ public class GoblinScript : MovingCharater
 				if (invultimer > 0)
 					invultimer -= Time.deltaTime;
 
-				if (!battle_state && canPatrol)
+				if (!battle_state && canPatrol&&!Atacking&&!hit)
 					Patroling(orgPos.x + mdist, orgPos.x - mdist);
-
+				if (!canPatrol)
+				{
+					Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.back), Color.green, 2, false);
+					if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.back), out RaycastHit hit, 5)&& hit.transform.gameObject.CompareTag("Player"))
+					{
+						if (angle == "left")
+							angle = "rigth";
+						else angle = "left";
+						Turning(angle);
+                    }
+				}
+				
 				Turning(angle);
 
 				if (direction != 0)
@@ -111,35 +123,38 @@ public class GoblinScript : MovingCharater
 	public void Combat(GameObject Player)
     {
 		float dist;
+		if (!hit)
+		{
+			anim.SetInteger("battle", 1);
 
-		anim.SetInteger("battle", 1);
-		
-		if (!Atacking)
-		anim.SetInteger("moving", 2);
-		runSpeed = 1.8f;
-		battle_state = true;
-		dist=transform.position.x - Player.transform.position.x;
-		if (transform.position.x < Player.transform.position.x)
-		{
-			direction = 1;
-			angle = "rigth";
-		}else
-		{
-			direction = -1;
-			angle = "left";
+			if (!Atacking)
+				anim.SetInteger("moving", 2);
+			runSpeed = 1.8f;
+			battle_state = true;
+			dist = transform.position.x - Player.transform.position.x;
+			if (transform.position.x < Player.transform.position.x)
+			{
+				direction = 1;
+				angle = "rigth";
+			}
+			else
+			{
+				direction = -1;
+				angle = "left";
+			}
+			if (dist <= 1.2 && dist >= -1.2 && !atackdelay)
+			{
+				StartCoroutine(Melee());
+				Debug.Log("pegue");
+			}
+			if (dist <= 1f && dist >= -1f)
+			{
+				Atacking = true;
+				if (!hit)
+					anim.SetInteger("moving", 0);
+			}
+			else if (!atackdelay) Atacking = false;
 		}
-		if (dist <= 1.2 && dist>=-1.2 &&!atackdelay)
-		{
-			StartCoroutine(Melee());
-			Debug.Log("pegue");
-		}
-		if (dist <= 1f && dist >= -1f)
-		{
-			Atacking = true;
-			if(!hit)
-			anim.SetInteger("moving", 0);
-		}
-		else Atacking = false;
 	}
 
 	private IEnumerator Melee()
@@ -166,19 +181,21 @@ public class GoblinScript : MovingCharater
         #region varibles
         Vector3 normal;
 		#endregion
-		anim.SetInteger("battle", 1);
-		normal=(transform.position - Player.transform.position).normalized;
-		spellCDCounter -= Time.deltaTime;
-
-		if (spellCDCounter <= 0)
+		if (!Atacking)
 		{
-			Atacking = true;
-			spellCDCounter = spellCD;
-			anim.SetInteger("moving", 5);
-			StartCoroutine( FireProyectile(normal));
+			anim.SetInteger("battle", 1);
+			normal = (transform.position - Player.transform.position).normalized;
+			spellCDCounter -= Time.deltaTime;
 
+			if (spellCDCounter <= 0)
+			{
+				Atacking = true;
+				spellCDCounter = spellCD;
+				anim.SetInteger("moving", 5);
+				StartCoroutine(FireProyectile(normal));
+
+			}
 		}
-		
 	}
 	public void ChangeAnimationState(string state,int value)
     {
@@ -197,25 +214,28 @@ public class GoblinScript : MovingCharater
 			anim.SetInteger("moving", 0);
 
 		}
+		Atacking = false;
 
 	}
 	protected override IEnumerator ResiveDamageProperty(GameObject target)
     {
-		switch(type)
-        {
-			case GoblinType.chaman:
-				anim.SetInteger("moving", 16);
-				break;
-			case GoblinType.rouge:
-				anim.SetInteger("moving", 10);
-				break;
-			case GoblinType.warrior:
-				anim.SetInteger("moving", 10);
-				break;
+		if (life > 0)
+		{
+			switch (type)
+			{
+				case GoblinType.chaman:
+					anim.SetInteger("moving", 16);
+					break;
+				case GoblinType.rouge:
+					anim.SetInteger("moving", 10);
+					break;
+				case GoblinType.warrior:
+					anim.SetInteger("moving", 15);
+					break;
+			}
+			sounds(getingHit);
 		}
 		hit = true;
-		if (life > 0)
-			sounds(getingHit);
 		yield return new WaitForSeconds(0.1f);
 		anim.SetInteger("moving", 0);
 		yield return new WaitForSeconds(0.4f);
@@ -234,14 +254,14 @@ public class GoblinScript : MovingCharater
 				anim.SetInteger("moving", typeOfDead);
 				break;
 			case GoblinType.warrior:
-				anim.SetInteger("moving", typeOfDead);
+				anim.SetInteger("moving", typeOfDead+1);
 				break;
 		}
 		StopAllCoroutines();
 		dropChance = UnityEngine.Random.Range(0, 100);
 		droptype = UnityEngine.Random.Range(0, 2);
 		if(dropChance>50)
-		Instantiate(drops.transform.GetChild(droptype), transform.position + new Vector3(0, 1, 0), Quaternion.identity);
+			Instantiate(drops.transform.GetChild(droptype), transform.position + new Vector3(0, 1, 0), Quaternion.identity);
 		sounds(deadS);
 		Destroy(this.gameObject, 2);
 	}

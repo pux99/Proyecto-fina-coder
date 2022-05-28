@@ -8,7 +8,7 @@ public class PlayerProyectile : EnemyProjectile
     {
         
         destructionTimer = 3;
-        damage = 10;
+        Destroy(gameObject, destructionTimer);
     }
     
     // Update is called once per frame
