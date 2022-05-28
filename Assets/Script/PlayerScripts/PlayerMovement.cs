@@ -20,6 +20,7 @@ public class PlayerMovement : MovingCharater
     private bool TurnigBlock;
     public bool touchinWall, isGrounded, walljumping, dashing;
     public int wallSide;
+    bool attaking;
     public CharacterManager charaterManager; 
     public GameObject projectiel;
     private GameObject meleeCol;
@@ -56,7 +57,7 @@ public class PlayerMovement : MovingCharater
             ThrowProjectile();
         if(life<=0)
             StartCoroutine( Dead());
-        if(Input.GetKeyDown(KeyCode.Q))
+        if(Input.GetKeyDown(KeyCode.Q)&&!attaking)
             StartCoroutine(Melee());
         if (Input.GetKeyDown(KeyCode.LeftShift) && dashCD <= dashTimer)
             Dash();
@@ -229,7 +230,7 @@ public class PlayerMovement : MovingCharater
         charaterManager.GetComponent<CharacterManager>().life=100;
         charaterManager.GetComponent<CharacterManager>().mana = 100;
         ColorManager.darken = true;
-        sounds(deadS);
+        Sounds(deadS);
         yield return new WaitForSeconds(2);
         transform.position = spawnPoint;
         yield return new WaitForSeconds(1);
@@ -237,12 +238,15 @@ public class PlayerMovement : MovingCharater
     }
     private IEnumerator Melee()
     {
+        attaking = true;
         meleeCol.SetActive(true);
         this.GetComponent<Animator>().SetBool("attaking", true);
         yield return new WaitForSeconds(.2f);
-        sounds(Hiting);
+        Sounds(Hiting);
         this.GetComponent<Animator>().SetBool("attaking", false);
         meleeCol.SetActive(false);
+        yield return new WaitForSeconds(1f);
+        attaking = false;
     }
     protected override IEnumerator ResiveDamageProperty(GameObject target)
     {
@@ -250,7 +254,7 @@ public class PlayerMovement : MovingCharater
         this.GetComponent<Animator>().SetBool("getHit", true);
         rb.velocity = new Vector3(0, 2, 0);
         yield return new WaitForSeconds(0.1f);
-        sounds(getingHit);
+        Sounds(getingHit);
         this.GetComponent<Animator>().SetBool("getHit", false);
     }
     void ThrowProjectile()
@@ -259,14 +263,14 @@ public class PlayerMovement : MovingCharater
         if (proyectileCD <= 0 && mana>=10)
         {
             this.GetComponent<Animator>().SetBool("spell", true);
-            sounds(magic);
+            Sounds(magic);
             disparo = Instantiate(projectiel, transform.position + new Vector3(-facing * .5f, 1, 0), Quaternion.identity);
             disparo.GetComponent<PlayerProyectile>().direccion = -facing;
             charaterManager.GetComponent<CharacterManager>().mana -= 10;
             proyectileCD = .5f;
         }
     }
-    void sounds(AudioSource sound)
+    void Sounds(AudioSource sound)
     {
         sound.Play();
     }

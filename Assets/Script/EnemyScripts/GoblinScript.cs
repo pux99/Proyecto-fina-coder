@@ -167,7 +167,7 @@ public class GoblinScript : MovingCharater
 		anim.SetInteger("moving", 3);
 		yield return new WaitForSeconds(0.5f);
 		meleeCol.SetActive(true);
-		sounds(Hiting);
+		Sounds(Hiting);
 		yield return new WaitForSeconds(.5f);
 		meleeCol.SetActive(false);
 		anim.SetInteger("moving", 0);
@@ -207,7 +207,7 @@ public class GoblinScript : MovingCharater
 		yield return new WaitForSeconds(1);
         if (!dead)
         {
-			sounds(Hiting);
+			Sounds(Hiting);
 			disparo = Instantiate(magicAtk, transform.position + new Vector3(direction * .5f, 1, 0), Quaternion.identity);
 			disparo.GetComponent<EnemyProjectile>().direccion = direction;
 			disparo.GetComponent<Fireball>().normal = normal;
@@ -233,7 +233,7 @@ public class GoblinScript : MovingCharater
 					anim.SetInteger("moving", 15);
 					break;
 			}
-			sounds(getingHit);
+			Sounds(getingHit);
 		}
 		hit = true;
 		yield return new WaitForSeconds(0.1f);
@@ -262,10 +262,10 @@ public class GoblinScript : MovingCharater
 		droptype = UnityEngine.Random.Range(0, 2);
 		if(dropChance>50)
 			Instantiate(drops.transform.GetChild(droptype), transform.position + new Vector3(0, 1, 0), Quaternion.identity);
-		sounds(deadS);
+		Sounds(deadS);
 		Destroy(this.gameObject, 2);
 	}
-	void sounds(AudioSource sound)
+	void Sounds(AudioSource sound)
     {
 		sound.Play();
     }
